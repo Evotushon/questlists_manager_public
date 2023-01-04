@@ -44,24 +44,6 @@ namespace questlists_manager
                 string[] allFiles = Directory.GetFiles(folderBrowserDialog1.SelectedPath).Select(Path.GetFileName).ToArray();
                 int fileNameNumber = 0;
 
-                        //check if there's next file
-                        //if (allFiles.Contains(nextFileName))
-                        //{
-                        //    labelLog.Text = fileNameNumber.ToString();
-                        //}
-                        //else
-                        //{
-                        //    labelLog.Text = fileNameNumber.ToString();
-                        //    break;
-                        //}
-                    }
-                    else
-                    {
-                        MessageBox.Show("Could not find proper questlists file.");
-                        break;
-                    }
-                }
-
                 if (isLoaded)
                 {
                     ManageLogs("Files has been loaded.");
