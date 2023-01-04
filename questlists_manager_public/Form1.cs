@@ -17,7 +17,7 @@ namespace questlists_manager
         int totalQuestCount = 0;
         Dictionary<int, List<string>> questDataDic = new Dictionary<int, List<string>>();
         Dictionary<int, List<int>> indexDic = new Dictionary<int, List<int>>();     //[{0,1,2,3,4,}
-        int seaonVal = 0;       //’l‚ª‚Ç‚ÌƒfƒtƒHƒ‹ƒg’l‚É‚à‡’v‚µ‚È‚¢ê‡A‚±‚Ì•Ï”‚É•Û‘¶‚³‚ê‚½’l‚ª‚»‚Ì‚Ü‚ÜƒZ[ƒu‚Ég—p‚³‚ê‚é
+        int seaonVal = 0;       //ï¿½lï¿½ï¿½ï¿½Ç‚Ìƒfï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½É‚ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½Ì•Ïï¿½ï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Ü‚ÜƒZï¿½[ï¿½uï¿½ï¿½ï¿½Égï¿½pï¿½ï¿½ï¿½ï¿½ï¿½
         int courseVal = 0;
         string[] dbByte = new string[60000];
         string[] dbNames = new string[60000];
@@ -43,49 +43,6 @@ namespace questlists_manager
                 string folderLocation = folderBrowserDialog1.SelectedPath;
                 string[] allFiles = Directory.GetFiles(folderBrowserDialog1.SelectedPath).Select(Path.GetFileName).ToArray();
                 int fileNameNumber = 0;
-                for (int i = 0; i < allFiles.Length; i++)
-                {
-                    string fileName = "list_" + fileNameNumber.ToString() + ".bin";
-                    if (allFiles.Contains(fileName))
-                    {
-                        isLoaded = true;
-                        byte[] byteData = File.ReadAllBytes(folderLocation + "/" + fileName);
-                        int questCount = byteData[1];
-                        fileNameNumber = fileNameNumber + questCount;
-                        string nextFileName = "list_" + fileNameNumber.ToString() + ".bin";
-
-                        int prevPointer = 8;
-                        for (int u = 0; u < questCount; u++)
-                        {
-                            byte[] header = byteData.Skip(prevPointer).Take(16).ToArray();
-                            int length = header[14] * 256 + header[15];
-                            byte[] data = byteData.Skip(prevPointer + 16).Take(length).ToArray();
-                            string str1 = BitConverter.ToString(header).Replace("-", string.Empty);
-                            string str2 = BitConverter.ToString(data).Replace("-", string.Empty);
-                            str1 = str1 + str2;
-
-                            int num1 = 0;
-                            if (u != questCount - 1)        //ˆê”ÔÅŒã‚ÌƒNƒGƒXƒg‚¾‚¯‚±‚Ìˆ—‚ğs‚í‚È‚¢(ˆÓ–¡‚ª‚È‚¢‚½‚ß)
-                            {
-                                for (int t = 1; t < 250; t++)
-                                {
-                                    int val = prevPointer + 16 + length + t;
-                                    if (val < byteData.Length)
-                                    {
-                                        if (byteData[val] == 64 && byteData[val + 1] == 1 && byteData[val - 1] == 0)
-                                        {
-                                            num1 = val - 56;
-                                            break;
-                                        }
-                                    }
-                                }
-                                prevPointer = num1;
-                            }
-                            List<string> list = questDataDic[0];
-                            list.Add(str1);
-                            questDataDic[0] = list;
-                            totalQuestCount = totalQuestCount + 1;
-                        }
 
                         //check if there's next file
                         //if (allFiles.Contains(nextFileName))
@@ -127,7 +84,7 @@ namespace questlists_manager
                         listQuest.Items.Add(tTitleAndName);
                     }
 
-                    if (listQuest.SelectedIndex == -1 && listQuest.Items.Count != 0)    //ƒCƒ“ƒfƒbƒNƒX‚ªƒ}ƒCƒiƒX(–¢‘I‘ğ)‚©‚ÂAŒÂ”‚ªÅ’á1ˆÈã‚Ì
+                    if (listQuest.SelectedIndex == -1 && listQuest.Items.Count != 0)    //ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½}ï¿½Cï¿½iï¿½X(ï¿½ï¿½ï¿½Iï¿½ï¿½)ï¿½ï¿½ï¿½ÂAï¿½Âï¿½ï¿½ï¿½ï¿½Å’ï¿½1ï¿½Èï¿½Ìï¿½
                     {
                         listQuest.SelectedIndex = 0;
                     }
@@ -141,8 +98,8 @@ namespace questlists_manager
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             var str = new List<string>();
             questDataDic.Add(0, str);       //queslists
-            questDataDic.Add(1, str);       //database‚ÌŠeƒNƒGƒXƒg
-            questDataDic.Add(2, str);       //database‚ÌƒNƒGƒXƒg‚Ì–¼‘O‚¾‚¯
+            questDataDic.Add(1, str);       //databaseï¿½ÌŠeï¿½Nï¿½Gï¿½Xï¿½g
+            questDataDic.Add(2, str);       //databaseï¿½ÌƒNï¿½Gï¿½Xï¿½gï¿½Ì–ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
 
             var num = new List<int>();
             indexDic.Add(0, num);
@@ -180,7 +137,7 @@ namespace questlists_manager
 
         private void listQuest_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listQuest.Items.Count != 0 && listQuest.SelectedIndex != -1)    //ƒŠƒXƒg‚É‚ ‚éƒNƒGƒXƒg”‚ª1ˆÈã‚©‚ÂAƒCƒ“ƒfƒbƒNƒX‚ªƒ}ƒCƒiƒX‚Å‚Í‚È‚¢
+            if (listQuest.Items.Count != 0 && listQuest.SelectedIndex != -1)    //ï¿½ï¿½ï¿½Xï¿½gï¿½É‚ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½1ï¿½Èã‚©ï¿½ÂAï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½}ï¿½Cï¿½iï¿½Xï¿½Å‚Í‚È‚ï¿½ï¿½ï¿½
             {
                 List<string> list = questDataDic[0];
                 string text = list[listQuest.SelectedIndex];
@@ -197,7 +154,7 @@ namespace questlists_manager
                     numPlayers.Value = by[3];
 
                     by.RemoveRange(0, 16);
-                    byte[] byteData = by.ToArray();     //V‚µ‚¢byte[]‚É‚µ‚Ä‚¢‚é‚ª“Á‚ÉˆÓ–¡‚Í‚È‚¢‚Æv‚í‚ê‚é
+                    byte[] byteData = by.ToArray();     //ï¿½Vï¿½ï¿½ï¿½ï¿½byte[]ï¿½É‚ï¿½ï¿½Ä‚ï¿½ï¿½é‚ªï¿½ï¿½ï¿½ÉˆÓ–ï¿½ï¿½Í‚È‚ï¿½ï¿½Ævï¿½ï¿½ï¿½ï¿½
 
                     List.ObjectiveType.TryGetValue(BitConverter.ToInt32(byteData, 48), out string targetOM);
                     List.ObjectiveType.TryGetValue(BitConverter.ToInt32(byteData, 56), out string targetOA);
@@ -505,9 +462,9 @@ namespace questlists_manager
         {
             if (listQuest.Items.Count != 0)
             {
-                byte[] endNormal = { 18, 131, 89, 137, 91, 131, 58, 88, 182, 142, 89, 130, 204, 131, 88, 131, 88, 131, 129, 44, 151, 05, 65, 00, 00 };  //ˆê”ÔÅŒãˆÈŠO‚ÌƒNƒGƒXƒg‚ÌÅŒã
-                byte[] end1 = { 00 }; //’Êí‚Ìƒtƒ@ƒCƒ‹‚Ìˆê”ÔÅŒã‚ÌƒNƒGƒXƒg
-                byte[] end2 = { 00,00}; //ˆê”ÔÅŒã‚Ìƒtƒ@ƒCƒ‹‚Ìˆê”ÔÅŒã‚ÌƒNƒGƒXƒg
+                byte[] endNormal = { 18, 131, 89, 137, 91, 131, 58, 88, 182, 142, 89, 130, 204, 131, 88, 131, 88, 131, 129, 44, 151, 05, 65, 00, 00 };  //ï¿½ï¿½ÔÅŒï¿½ÈŠOï¿½ÌƒNï¿½Gï¿½Xï¿½gï¿½ÌÅŒï¿½
+                byte[] end1 = { 00 }; //ï¿½Êï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½Ìˆï¿½ÔÅŒï¿½ÌƒNï¿½Gï¿½Xï¿½g
+                byte[] end2 = { 00,00}; //ï¿½ï¿½ÔÅŒï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½Ìˆï¿½ÔÅŒï¿½ÌƒNï¿½Gï¿½Xï¿½g
                 byte[] header = { 00, 42, 13, 125, 143, 204, 00, 00 };
                 byte[] fileEnd = File.ReadAllBytes("data/end.bin");
                 int questCount = 0;
@@ -523,7 +480,7 @@ namespace questlists_manager
 
                         if (list.Count < 42)
                         {
-                            count = list.Count;     //ƒNƒGƒXƒg”‚ª42ŒÂ‚æ‚è­‚È‚¢ê‡
+                            count = list.Count;     //ï¿½Nï¿½Gï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½42ï¿½Â‚ï¿½è­ï¿½È‚ï¿½ï¿½ê‡
                         }
                         else
                         {
@@ -549,7 +506,7 @@ namespace questlists_manager
                                 by.AddRange(quest);
                                 by.AddRange(endNormal);
                             }
-                            else        //ÅŒã‚Ì‚İ
+                            else        //ï¿½ÅŒï¿½Ì‚ï¿½
                             {
                                 by.AddRange(quest);
                                 by.AddRange(end1);
@@ -563,7 +520,7 @@ namespace questlists_manager
                         }
                     }
                     else
-                    {       //ˆê”ÔÅŒã‚Ìƒtƒ@ƒCƒ‹
+                    {       //ï¿½ï¿½ÔÅŒï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½
                         var by = new List<byte>();
                         if (rest != 0)
                         {
@@ -770,7 +727,7 @@ namespace questlists_manager
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            if (listQuest.Items.Count != 0 && listQuest.SelectedIndex != -1)     //0ŒÂ‚Ì‚Æ‚«‚Í‚»‚à‚»‚àÀs‚³‚ê‚È‚¢
+            if (listQuest.Items.Count != 0 && listQuest.SelectedIndex != -1)     //0ï¿½Â‚Ì‚Æ‚ï¿½ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½È‚ï¿½
             {
                 if (checkBoxAskDelete.Checked)
                 {
@@ -1996,7 +1953,7 @@ namespace questlists_manager
                     numPlayers.Value = by[3];
 
                     by.RemoveRange(0, 16);
-                    byte[] byteData = by.ToArray();     //V‚µ‚¢byte[]‚É‚µ‚Ä‚¢‚é‚ª“Á‚ÉˆÓ–¡‚Í‚È‚¢‚Æv‚í‚ê‚é
+                    byte[] byteData = by.ToArray();     //ï¿½Vï¿½ï¿½ï¿½ï¿½byte[]ï¿½É‚ï¿½ï¿½Ä‚ï¿½ï¿½é‚ªï¿½ï¿½ï¿½ÉˆÓ–ï¿½ï¿½Í‚È‚ï¿½ï¿½Ævï¿½ï¿½ï¿½ï¿½
 
                     List.ObjectiveType.TryGetValue(BitConverter.ToInt32(byteData, 48), out string targetOM);
                     List.ObjectiveType.TryGetValue(BitConverter.ToInt32(byteData, 56), out string targetOA);
@@ -2360,7 +2317,7 @@ namespace questlists_manager
 
                     //ManageLogs("Database has loaded.");
                     //MessageBox.Show("Database has loaded.");
-                    if (listDataabse.SelectedIndex == -1 && listDataabse.Items.Count != 0)    //ƒCƒ“ƒfƒbƒNƒX‚ªƒ}ƒCƒiƒX(–¢‘I‘ğ)‚©‚ÂAŒÂ”‚ªÅ’á1ˆÈã‚Ì
+                    if (listDataabse.SelectedIndex == -1 && listDataabse.Items.Count != 0)    //ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½}ï¿½Cï¿½iï¿½X(ï¿½ï¿½ï¿½Iï¿½ï¿½)ï¿½ï¿½ï¿½ÂAï¿½Âï¿½ï¿½ï¿½ï¿½Å’ï¿½1ï¿½Èï¿½Ìï¿½
                     {
                         listDataabse.SelectedIndex = 0;
                     }
@@ -2380,7 +2337,7 @@ namespace questlists_manager
 
         private void textBoxSearchBox_KeyUp(object sender, KeyEventArgs e)
         {
-            //F1ƒL[‚ª‰Ÿ‚³‚ê‚½‚©’²‚×‚é
+            //F1ï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½ï¿½ï¿½×‚ï¿½
             if (e.KeyData == Keys.Enter)
             {
                 if (listDataabse.SelectedIndex != -1 && listDataabse.Items.Count != 0)
