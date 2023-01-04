@@ -42,7 +42,6 @@ namespace questlists_manager
 
                 string folderLocation = folderBrowserDialog1.SelectedPath;
                 string[] allFiles = Directory.GetFiles(folderBrowserDialog1.SelectedPath).Select(Path.GetFileName).ToArray();
-                int fileNameNumber = 0;
 
                 if (isLoaded)
                 {
